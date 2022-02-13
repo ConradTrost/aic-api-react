@@ -13,7 +13,7 @@ const MasonryImage = (props) => {
 
   useEffect(() => {
     console.log(props.page);
-    const url = `https://api.artic.edu/api/v1/artworks?fields=id,artist_titles,title,image_id,artist_display&limit=10&page=${props.page}`;
+    const url = `https://api.artic.edu/api/v1/images?fields=id,artwork_titles&limit=10&page=${props.page}`;
     fetch(url)
       .then((res) => res.json())
       .then((result) => {
@@ -27,25 +27,20 @@ const MasonryImage = (props) => {
       <ImageList variant="masonry" cols={4} gap={0}>
         {art.data?.map((data) => {
           return (
-            data?.image_id && (
+            data?.id && (
               <ImageListItem key={data.id}>
-                <img
-                  src={`https://www.artic.edu/iiif/2/${data.image_id}/full/843,/0/default.jpg?w=248&fit=crop&auto=format`}
-                  srcSet={`https://www.artic.edu/iiif/2/${data.image_id}/full/843,/0/default.jpg?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={data.id}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  title={data.title}
-                  subtitle={data.artist_titles[0]}
-                  actionIcon={
-                    <Tooltip title={data.artist_display}>
-                      <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }} aria-label={`info about ${data.title}`}>
-                        <InfoIcon />
-                      </IconButton>
-                    </Tooltip>
-                  }
-                />
+                <a
+                  href={`https://www.artic.edu/iiif/2/${data.id}/full/1686,/0/default.jpg`}
+                  target="_blank"
+                  rel="nofollower noreferrer">
+                  <img
+                    src={`https://www.artic.edu/iiif/2/${data.id}/full/400,/0/default.jpg?w=248&fit=crop&auto=format`}
+                    srcSet={`https://www.artic.edu/iiif/2/${data.id}/full/400,/0/default.jpg?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    alt={data.id}
+                    loading="lazy"
+                  />
+                </a>
+                <ImageListItemBar title={data.artwork_titles[0] ? data.artwork_titles[0] : "Untitled"} />
               </ImageListItem>
             )
           );
