@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import Box from "@mui/material/Box";
+import MasonryImage from "./components/MasonryImg";
+import NavButton from "./components/NavButton";
 
-function App() {
+const App = () => {
+  const [page, setPage] = useState();
+
+  const loadRandomPage = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    const randomPage = Math.floor(Math.random() * (max - min) + min);
+    setPage(randomPage);
+  };
+
+  const handleClick = () => {
+    loadRandomPage(1, 500);
+  };
+
+  useEffect(() => {
+    loadRandomPage(1, 500);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box className="App">
+      <MasonryImage key={page} page={page} />
+      <NavButton onButtonClick={handleClick} />
+    </Box>
   );
-}
+};
 
 export default App;
